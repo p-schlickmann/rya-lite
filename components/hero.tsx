@@ -19,7 +19,7 @@ export function Hero() {
         variant={"default"}
         asChild
       >
-        <Link href={"/ask"}>Get Started</Link>
+        <Link href={"/dashboard"}>Get Started</Link>
       </Button>
     </div>
   );
