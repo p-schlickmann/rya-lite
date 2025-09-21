@@ -1,6 +1,4 @@
 import { Hero } from "@/components/hero";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { BaseLayout } from "@/layouts/base-layout";
 
 export default function Home() {

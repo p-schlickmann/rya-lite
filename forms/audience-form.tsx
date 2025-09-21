@@ -5,11 +5,23 @@ import { FormEvent, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import MultiChoices from "@/components/ui/multi-choices";
-import { OutsideAlerter } from "@/lib/hooks/useOutsideClick";
 import MultiSelect from "@/components/ui/multi-select";
 import { uniquify } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
+import { redirect } from "next/navigation";
 
-const INITIAL_AUDIENCE_STATE = {
+type Audience = {
+  name: string;
+  age_min?: string;
+  age_max?: string;
+  birth_sex?: string;
+  state?: string;
+  city?: string;
+  income?: string;
+  interests: string[];
+};
+
+const INITIAL_AUDIENCE_STATE: Audience = {
   name: "",
   age_min: "",
   age_max: "",
@@ -34,26 +46,41 @@ const INTERESTS_LIST = [
 ];
 
 export default function AudienceForm() {
-  const [audience, setAudience] = useState(INITIAL_AUDIENCE_STATE);
+  const [audience, setAudience] = useState<Audience>(INITIAL_AUDIENCE_STATE);
   const [formError, setFormError] = useState("");
 
-  const setAudienceForm = (field) => setAudience({ ...audience, ...field });
+  const setAudienceForm = (field: Partial<Audience>) =>
+    setAudience({ ...audience, ...field });
 
-  const createAudience = (event: FormEvent<HTMLFormElement>) => {
+  const createAudience = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    // validate
     setFormError("");
-    if (+audience.age_min > +audience.age_max) {
+    if (
+      audience.age_min &&
+      audience.age_max &&
+      +audience?.age_min > +audience?.age_max
+    ) {
       return setFormError("Age range is invalid.");
     }
     if (!audience.interests.length) {
       return setFormError("Make sure to add some interests to your audience!");
     }
+
+    // submit to supabase
+    const supabase = createClient();
+    const { error, status } = await supabase
+      .from("audiences")
+      .insert([audience]);
+    if (error) return setFormError(error.message);
+    if (status == 201) redirect("/dashboard");
   };
 
   const handleSelectOption = (option: string, unselect?: boolean) => {
     if (unselect) {
       setAudienceForm({
-        interests: audience.interests.filter((i) => i !== option),
+        interests: audience.interests?.filter((i) => i !== option),
       });
     } else {
       setAudienceForm({

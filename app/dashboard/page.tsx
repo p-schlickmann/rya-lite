@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 import { BaseLayout } from "@/layouts/base-layout";
-import AudienceForm from "@/forms/audience-form";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -14,14 +13,16 @@ export default async function DashboardPage() {
 
   const { data: audiences, error: audiencesError } = await supabase
     .from("audiences")
-    .select("id");
-  console.log(audiences, audiencesError, "chama?");
+    .select("*");
+  if (!audiences?.length) {
+    redirect("/dashboard/audiences/new");
+  }
+
+  console.log(audiences);
 
   return (
     <BaseLayout>
-      <div className={"mx-auto min-h-[75vh] px-4"}>
-        {audiences?.length === 0 ? <AudienceForm /> : null}
-      </div>
+      <div className={"mx-auto min-h-[75vh] px-4"}>audiences list!</div>
     </BaseLayout>
   );
 }

@@ -1,39 +1,42 @@
 import { cn } from "@/lib/utils";
 
-export default function MultiChoices({
+export default function MultiChoices<
+  T extends Record<string, any>,
+  K extends keyof T,
+>({
   options,
   form,
   setForm,
   fieldName,
 }: {
   options: string[];
-  form: unknown;
-  setForm: (field: unknown) => void;
-  fieldName: string;
+  form: T;
+  setForm: (field: Partial<T>) => void;
+  fieldName: K;
 }) {
   return (
     <div className={"text-xs flex items-center flex-wrap gap-x-3 gap-y-1"}>
-      {options.map((sex) => {
+      {options.map((opt) => {
         return (
           <button
             onClick={(e) => {
               const optionSelected = e.target.textContent;
               if (form[fieldName] === optionSelected) {
-                setForm({ [fieldName]: "" });
+                setForm({ [fieldName]: "" } as Partial<T>);
               } else {
-                setForm({ [fieldName]: optionSelected });
+                setForm({ [fieldName]: optionSelected } as Partial<T>);
               }
             }}
             type={"button"}
-            key={sex}
+            key={opt}
             className={cn(
               "rounded-xl px-3 py-1 border focus-visible:outline-yellow-400",
-              sex === form[fieldName]
+              opt === form[fieldName]
                 ? "bg-yellow-500 border-yellow-500 text-white font-medium"
                 : "",
             )}
           >
-            {sex}
+            {opt}
           </button>
         );
       })}
