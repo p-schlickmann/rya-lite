@@ -9,7 +9,7 @@ export function BaseLayout({ children }: { children: ReactNode }) {
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
             <div className="flex gap-2 items-center font-semibold">
-              <Link className={"text-lg"} href={"/"}>
+              <Link className={"text-lg"} href={"/public"}>
                 RYA Lite
               </Link>
               {/*<ThemeSwitcher />*/}

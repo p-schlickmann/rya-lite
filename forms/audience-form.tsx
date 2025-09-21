@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { FormEvent, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import MultiSelect from "@/components/multi-select";
+import MultiChoices from "@/components/ui/multi-choices";
+import { OutsideAlerter } from "@/lib/hooks/useOutsideClick";
+import MultiSelect from "@/components/ui/multi-select";
+import { uniquify } from "@/lib/utils";
 
 const INITIAL_AUDIENCE_STATE = {
   name: "",
@@ -20,12 +22,44 @@ const INITIAL_AUDIENCE_STATE = {
 
 const BIRTH_SEX_LIST = ["Male", "Female", "Both"];
 const INCOME_LIST = ["Low", "Medium", "High", "Premium"];
+const INTERESTS_LIST = [
+  "nature",
+  "surf",
+  "sports",
+  "golf",
+  "technology",
+  "artificial Intelligence",
+  "cars",
+  "cooking",
+];
 
 export default function AudienceForm() {
   const [audience, setAudience] = useState(INITIAL_AUDIENCE_STATE);
+  const [formError, setFormError] = useState("");
+
   const setAudienceForm = (field) => setAudience({ ...audience, ...field });
+
   const createAudience = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setFormError("");
+    if (+audience.age_min > +audience.age_max) {
+      return setFormError("Age range is invalid.");
+    }
+    if (!audience.interests.length) {
+      return setFormError("Make sure to add some interests to your audience!");
+    }
+  };
+
+  const handleSelectOption = (option: string, unselect?: boolean) => {
+    if (unselect) {
+      setAudienceForm({
+        interests: audience.interests.filter((i) => i !== option),
+      });
+    } else {
+      setAudienceForm({
+        interests: uniquify([...audience.interests, option]),
+      });
+    }
   };
 
   return (
@@ -40,6 +74,16 @@ export default function AudienceForm() {
             placeholder={"Cool audience name..."}
             value={audience.name}
             onChange={(e) => setAudienceForm({ name: e.target.value })}
+          />
+        </div>
+        <div className={"col-span-2 relative"}>
+          <Label htmlFor={"interests"}>Interests</Label>
+          <MultiSelect
+            id={"interests"}
+            placeholder={"Search..."}
+            options={INTERESTS_LIST}
+            handleSelectOption={handleSelectOption}
+            optionsSelected={audience.interests}
           />
         </div>
         <div className={"col-span-2"}>
@@ -86,7 +130,7 @@ export default function AudienceForm() {
         </div>
         <div className={"col-span-2"}>
           <Label>Sex</Label>
-          <MultiSelect
+          <MultiChoices
             options={BIRTH_SEX_LIST}
             form={audience}
             setForm={setAudienceForm}
@@ -95,7 +139,7 @@ export default function AudienceForm() {
         </div>
         <div className={"col-span-2"}>
           <Label>Income</Label>
-          <MultiSelect
+          <MultiChoices
             options={INCOME_LIST}
             form={audience}
             setForm={setAudienceForm}
@@ -106,6 +150,26 @@ export default function AudienceForm() {
           Create Audience
         </Button>
       </form>
+      {formError ? (
+        <div
+          className="flex items-center p-4 mt-4 text-sm text-red-800 border border-red-300 rounded-lg dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+          role="alert"
+        >
+          <svg
+            className="shrink-0 inline w-4 h-4 me-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+          </svg>
+          <span className="sr-only">Info</span>
+          <div>
+            <span className="font-medium">{formError}</span>
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

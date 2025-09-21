@@ -7,7 +7,13 @@ export function Hero() {
     <div className="flex flex-col items-center">
       <div className="flex justify-center items-center">
         <Link href="/">
-          <Image width={500} height={200} src={"/rya.png"} alt={"Rya Lite"} />
+          <Image
+            className={"ml-6"}
+            width={500}
+            height={200}
+            src={"/rya.png"}
+            alt={"Rya Lite"}
+          />
         </Link>
       </div>
       <p className="text-3xl lg:text-4xl !leading-tight mx-auto max-w-xl text-center mt-8 mb-16">
