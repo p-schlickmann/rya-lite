@@ -66,7 +66,7 @@ export default function AudienceForm() {
       data: createdAudience,
       error,
       status,
-    } = await supabase.from("audiences").insert([audience]).single().select();
+    } = await supabase.from("audiences").insert([audience]).select().single();
     if (error) return setFormError(error.message);
     if (status == 201)
       redirect(

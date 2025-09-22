@@ -56,7 +56,7 @@ export default function MultiSelect({
           if (e.key === "Enter") {
             e.preventDefault();
             internalHandleSelectOption(query);
-            e.target?.blur();
+            e.currentTarget?.blur();
           }
         }}
         onClear={onClearQuery}

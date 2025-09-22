@@ -19,13 +19,9 @@ export default function MultiChoices<
       {options.map((opt) => {
         return (
           <button
-            onClick={(e) => {
-              const optionSelected = e.target.textContent;
-              if (form[fieldName] === optionSelected) {
-                setForm({ [fieldName]: "" } as Partial<T>);
-              } else {
-                setForm({ [fieldName]: optionSelected } as Partial<T>);
-              }
+            onClick={() => {
+              const chosen = form[fieldName] === opt ? "" : opt;
+              setForm({ [fieldName]: chosen } as Partial<T>);
             }}
             type={"button"}
             key={opt}
