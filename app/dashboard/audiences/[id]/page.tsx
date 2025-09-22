@@ -31,7 +31,7 @@ export default async function AudienceDetailPage({
 
   return (
     <BaseLayout>
-      <BackButton />
+      <BackButton href={"/dashboard"} />
       <div className="mx-auto min-h-[75vh] px-4">
         {error ? <Error message={error} /> : null}
         <AudienceDetail audience={audience as Audience} large />
