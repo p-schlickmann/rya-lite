@@ -9,22 +9,14 @@ import MultiSelect from "@/components/ui/multi-select";
 import { uniquify } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { redirect } from "next/navigation";
+import Error from "@/components/ui/error";
+import type { NewAudience } from "@/lib/types";
 
-type Audience = {
-  name: string;
-  age_min?: string;
-  age_max?: string;
-  birth_sex?: string;
-  state?: string;
-  city?: string;
-  income?: string;
-  interests: string[];
-};
-
-const INITIAL_AUDIENCE_STATE: Audience = {
+const INITIAL_AUDIENCE_STATE: NewAudience = {
   name: "",
-  age_min: "",
-  age_max: "",
+  brand_description: "",
+  age_min: null,
+  age_max: null,
   birth_sex: "",
   state: "",
   city: "",
@@ -46,10 +38,10 @@ const INTERESTS_LIST = [
 ];
 
 export default function AudienceForm() {
-  const [audience, setAudience] = useState<Audience>(INITIAL_AUDIENCE_STATE);
+  const [audience, setAudience] = useState<NewAudience>(INITIAL_AUDIENCE_STATE);
   const [formError, setFormError] = useState("");
 
-  const setAudienceForm = (field: Partial<Audience>) =>
+  const setAudienceForm = (field: Partial<NewAudience>) =>
     setAudience({ ...audience, ...field });
 
   const createAudience = async (event: FormEvent<HTMLFormElement>) => {
@@ -122,7 +114,7 @@ export default function AudienceForm() {
               maxLength={3}
               className={"w-9 h-8 p-1"}
               id={"age_min"}
-              value={audience.age_min}
+              value={audience.age_min || ""}
               onChange={(e) => setAudienceForm({ age_min: e.target.value })}
             />{" "}
             to{" "}
@@ -131,7 +123,7 @@ export default function AudienceForm() {
               maxLength={3}
               className={"w-9 h-8 p-1"}
               id={"age_max"}
-              value={audience.age_max}
+              value={audience.age_max || ""}
               onChange={(e) => setAudienceForm({ age_max: e.target.value })}
             />{" "}
             years old
@@ -173,30 +165,23 @@ export default function AudienceForm() {
             fieldName={"income"}
           />
         </div>
+        <div className={"col-span-2"}>
+          <Label htmlFor="brand_description">Brand description</Label>
+          <Input
+            id="brand_description"
+            required
+            placeholder={"What does your brand do?"}
+            value={audience.brand_description}
+            onChange={(e) =>
+              setAudienceForm({ brand_description: e.target.value })
+            }
+          />
+        </div>
         <Button className={"col-span-2 mt-4"} type={"submit"}>
           Create Audience
         </Button>
       </form>
-      {formError ? (
-        <div
-          className="flex items-center p-4 mt-4 text-sm text-red-800 border border-red-300 rounded-lg dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-          role="alert"
-        >
-          <svg
-            className="shrink-0 inline w-4 h-4 me-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-          </svg>
-          <span className="sr-only">Info</span>
-          <div>
-            <span className="font-medium">{formError}</span>
-          </div>
-        </div>
-      ) : null}
+      {formError ? <Error message={formError} className={"mt-4"} /> : null}
     </>
   );
 }

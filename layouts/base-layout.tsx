@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { AuthButton } from "@/components/auth-button";
 import { ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import BackButton from "@/components/back-button";
 
 export function BaseLayout({ children }: { children: ReactNode }) {
   return (
@@ -9,7 +11,7 @@ export function BaseLayout({ children }: { children: ReactNode }) {
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
             <div className="flex gap-2 items-center font-semibold">
-              <Link className={"text-lg"} href={"/public"}>
+              <Link className={"text-lg"} href={"/"}>
                 RYA Lite
               </Link>
               {/*<ThemeSwitcher />*/}
