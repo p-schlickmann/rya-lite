@@ -11,7 +11,7 @@ https://rya-lite.vercel.app/
 - Remix a concept to create a new variation
 
 ## Key assumptions
-- The app includes authentication so users can save their own audiences and concepts
+- The app must include authentication so users can save their own audiences and concepts
 - The app must use the same stack as the live product: **Supabase**, **Next.js**, **Vercel**
 - The app must use a styling library for development speed.
 - The app must allow users to create audiences with relevant demographic variables.
