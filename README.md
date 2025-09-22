@@ -13,8 +13,8 @@ https://rya-lite.vercel.app/
 ## Key assumptions
 - The app must include authentication so users can save their own audiences and concepts
 - The app must use the same stack as the live product: **Supabase**, **Next.js**, **Vercel**
-- The app must use a styling library for development speed.
-- The app must allow users to create audiences with relevant demographic variables.
+- The app must use a styling library for development speed
+- The app must allow users to create audiences with relevant demographic variables
 - Demographic variables chosen:
   - Age
   - State
@@ -22,7 +22,7 @@ https://rya-lite.vercel.app/
   - Birth sex
   - Income
   - Interests
-- The app must also allow users to provide a description of their brand; this helps the LLM generate a more relevant concept.
+- The app must also allow users to provide a description of their brand; this helps the LLM generate a more relevant concept
 
 ## How I approached it
 1. Started off Next.js Supabase template: 
