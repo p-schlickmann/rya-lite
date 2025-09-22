@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 export default function MultiChoices<
-  T extends Record<string, any>,
+  T extends Record<string, null | number | string | string[]>,
   K extends keyof T,
 >({
   options,

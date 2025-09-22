@@ -2,10 +2,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { BaseLayout } from "@/layouts/base-layout";
 import Error from "@/components/ui/error";
-import { Mars, Venus, Users, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { formatAgeRange } from "@/lib/utils";
 import type { Audience } from "@/lib/types";
 import AudienceDetail from "@/components/audience-detail";
 

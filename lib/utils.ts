@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function uniquify(array: any[]) {
+export function uniquify(array: string[]) {
   return [...new Set(array)];
 }
 
