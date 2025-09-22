@@ -12,7 +12,7 @@ export default function AudienceDetail({
   const Icon =
     audience?.birth_sex?.toLowerCase() === "male"
       ? Mars
-      : audience.birth_sex?.toLowerCase() === "female"
+      : audience?.birth_sex?.toLowerCase() === "female"
         ? Venus
         : Users;
 

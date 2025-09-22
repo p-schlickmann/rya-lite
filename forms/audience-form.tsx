@@ -62,11 +62,18 @@ export default function AudienceForm() {
 
     // submit to supabase
     const supabase = createClient();
-    const { error, status } = await supabase
-      .from("audiences")
-      .insert([audience]);
+    const {
+      data: createdAudience,
+      error,
+      status,
+    } = await supabase.from("audiences").insert([audience]).single().select();
     if (error) return setFormError(error.message);
-    if (status == 201) redirect("/dashboard");
+    if (status == 201)
+      redirect(
+        createdAudience.id
+          ? `/dashboard/audiences/${createdAudience?.id}`
+          : "/dashboard",
+      );
   };
 
   const handleSelectOption = (option: string, unselect?: boolean) => {
