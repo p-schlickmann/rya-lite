@@ -8,7 +8,7 @@ export function Hero() {
       <div className="flex justify-center items-center">
         <Link href="/">
           <Image
-            className={"ml-6"}
+            className={"ml-4"}
             width={500}
             height={200}
             src={"/rya.png"}

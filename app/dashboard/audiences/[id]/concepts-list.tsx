@@ -128,11 +128,11 @@ export default function ConceptsList({
       </div>
       {conceptError ? <Error message={conceptError} /> : null}
       {newConceptLoading ? <ConceptCardSkeleton /> : null}
-      {concepts.map((concept) => (
+      {concepts.map((concept, idx) => (
         <ConceptCard
           remixDisabled={newConceptLoading}
           onRemix={() => generateConcept(concept)}
-          key={concept.name}
+          key={concept.id || idx}
           concept={concept}
           concepts={concepts}
         />
