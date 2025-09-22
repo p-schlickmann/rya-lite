@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { OutsideAlerter } from "@/lib/hooks/useOutsideClick";
-import { useState } from "react";
+import React, { useState } from "react";
 import { uniquify } from "@/lib/utils";
 import { X } from "lucide-react";
 

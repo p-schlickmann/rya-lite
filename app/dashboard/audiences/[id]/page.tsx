@@ -6,15 +6,14 @@ import Error from "@/components/ui/error";
 import BackButton from "@/components/back-button";
 import ConceptsList from "@/app/dashboard/audiences/[id]/concepts-list";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
-
-export default async function AudienceDetailPage({ params }: Props) {
-  const supabase = await createClient();
+export default async function AudienceDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const awaitedParams = await params;
+
+  const supabase = await createClient();
 
   const { data: audience, error: audienceError } = await supabase
     .from("audiences")
